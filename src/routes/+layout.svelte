@@ -1,25 +1,45 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { themeStore } from '../stores/themeStore';
+  import "../app.css";
+  import { onMount } from 'svelte';
+  import { themeStore } from '../stores/themeStore';
+  import { menuListStore, setMenuList } from '../stores/menuListStore';
   
-    // Subscribe to themeStore
-    let themeData;
-    themeStore.subscribe(data => {
-      themeData = data;
-    });
-  
+  let themeData;
+  let menuList = [];
+  let showDropdown = false;
+
+  themeStore.subscribe(($themeStore) => {
+    themeData = $themeStore;
+    setMenuList(themeData.theme); // Set the menu based on the current brand
+  });
+
+  menuListStore.subscribe(($menuList) => {
+    menuList = $menuList;
+  });
+
+  function toggleDropdown() {
+    showDropdown = !showDropdown;
+  }
+
+  // Close the dropdown if clicked outside
+  function handleClickOutside(event) {
+    if (!event.target.closest('.dropdown-container')) {
+      showDropdown = false;
+    }
+  }
+
     // We will update the video and logo in the onMount hook
     onMount(() => {
-      // Make sure this code runs only in the browser
-      if (typeof window !== 'undefined') {
-        updateVideoAndLogo(themeData);
-      }
-    });
-  
-    // Reactive statement to update the logo and theme text when the theme changes
-    $: if (themeData && typeof window !== 'undefined') {
-      updateVideoAndLogo(themeData);
-    }
+    window.addEventListener('click', handleClickOutside);
+    setMenuList(themeData.theme); // Set the menu list based on the initial theme
+    updateVideoAndLogo(themeData); // Initial update when the component mounts
+    // ...
+  });
+
+  $: if (themeData && typeof window !== 'undefined') {
+    setMenuList(themeData.theme); // Update the menu list reactively when the theme changes
+    updateVideoAndLogo(themeData);
+  }
   
     function updateVideoAndLogo(themeData) {
       // Ensure that you have elements with the 'carousel-video', 'brand-logo', and 'theme-text' classes in your markup
@@ -47,8 +67,8 @@
   </script>
   
   <div class="flex justify-between items-center">
-      <div class="flex-none w-12 bg-slate-200">
-          <button on:click={handleLogoClick} class="pvh-logo-button" aria-label="Change Theme">
+      <div class="flex-none w-12 h-full bg-slate-200">
+          <button on:click={handleLogoClick} class="pvh-logo-button animate-pulse" aria-label="Change Theme">
               <img src="/img/PVH_Logo.svg" alt="PVH Logo" class="pvh-logo">
               </button>
       </div>
@@ -61,7 +81,26 @@
   </div>
   <div class="flex bg-blue-200">
       <div>
-          Menu
+            <!-- Tailwind CSS Dropdown Menu -->
+    <div class="relative inline-block text-left dropdown-container">
+    <div>
+      <button type="button" on:click={toggleDropdown} class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50" id="menu-button" aria-expanded={showDropdown} aria-haspopup="true">
+        Divisions
+        <!-- SVG icon here -->
+      </button>
+    </div>
+    {#if showDropdown}
+    <div class="absolute left-0 z-50 mt-2 w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+      <div class="py-1" role="none">
+          {#each menuList as menuItem}
+            <a href={menuItem.href} class="block px-4 py-2 text-xl text-black hover:bg-gray-100" role="menuitem" tabindex="-1">
+              {menuItem.name}
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+  </div>
       </div>
       <div>
           Content
@@ -84,6 +123,13 @@
       height: auto; /* Maintain aspect ratio */
       margin-bottom: 10px; /* Space between logo and title */
     }
-  
-    /* Add styles for brand-logo and theme-text if needed */
+    .dropdown-container {
+    z-index: 50; /* Make sure the dropdown is above most other elements */
+  }
+
+  /* Additional style to ensure the dropdown extends from the left side */
+  .dropdown-container .absolute {
+    right: auto; /* Override any existing right positioning */
+    left: 0; /* Align the dropdown to the left side of its parent */
+  }
   </style>

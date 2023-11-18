@@ -11,68 +11,66 @@ export const createThemeStore = () => {
     ],
     movies: {
         'TH': [
-        { title: 'Movie 1', videoUrl: '/th.mp4' },
+        { title: 'Tommy Hilfiger', videoUrl: '/th.mp4' },
     ],
         'CK': [
-        { title: 'Movie A', videoUrl: '/ck.mp4' },
+        { title: 'Calvin Klein', videoUrl: '/ck.mp4' },
         ],
         'NIKE': [
-            { title: 'Movie X', videoUrl: '/nike.mp4' },
+            { title: 'Nike', videoUrl: '/nike.mp4' },
         ],
     },
 });
 
-  if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined') {
     // We are in the browser, localStorage is available
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme) {
-      update(store => {
+        update(store => {
         store.theme = storedTheme;
         return store;
-      });
-    }
+    });
+}
 
-    return {
-      subscribe,
-      setTheme: (themeValue) => {
+return {
+    subscribe,
+    setTheme: (themeValue) => {
         localStorage.setItem('theme', themeValue);
         update(store => {
-          store.theme = themeValue;
-          return store;
+            store.theme = themeValue;
+            return store;
         });
-      },
-      nextBrand: () => {
+    },
+    nextBrand: () => {
         update(store => {
-          let currentIndex = store.brands.findIndex(brand => brand.value === store.theme);
-          let nextIndex = (currentIndex + 1) % store.brands.length;
-          let nextBrand = store.brands[nextIndex];
-          localStorage.setItem('theme', nextBrand.value);
-          store.theme = nextBrand.value;
-          return store;
+            let currentIndex = store.brands.findIndex(brand => brand.value === store.theme);
+            let nextIndex = (currentIndex + 1) % store.brands.length;
+            let nextBrand = store.brands[nextIndex];
+            localStorage.setItem('theme', nextBrand.value);
+            store.theme = nextBrand.value;
+            return store;
         });
-      },
-      previousBrand: () => {
+    },
+    previousBrand: () => {
         update(store => {
-          let currentIndex = store.brands.findIndex(brand => brand.value === store.theme);
-          let prevIndex = (currentIndex - 1 + store.brands.length) % store.brands.length;
-          let prevBrand = store.brands[prevIndex];
-          localStorage.setItem('theme', prevBrand.value);
-          store.theme = prevBrand.value;
-          return store;
+            let currentIndex = store.brands.findIndex(brand => brand.value === store.theme);
+            let prevIndex = (currentIndex - 1 + store.brands.length) % store.brands.length;
+            let prevBrand = store.brands[prevIndex];
+            localStorage.setItem('theme', prevBrand.value);
+            store.theme = prevBrand.value;
+            return store;
         });
-      },
-      // ... any other methods you want to add
-    };
-  } else {
+    },
+};
+} else {
     // We are on the server, just return the store without localStorage logic
     return {
-      subscribe,
-      set: (themeValue) => {
-        set(themeValue);
-      },
-      // ... any other methods you want to add
+        subscribe,
+        set: (themeValue) => {
+            set(themeValue);
+        },
     };
-  }
+}
 };
 
 export const themeStore = createThemeStore();
