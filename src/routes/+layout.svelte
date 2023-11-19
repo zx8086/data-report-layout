@@ -3,6 +3,8 @@
   import { onMount } from 'svelte';
   import { themeStore } from '../stores/themeStore';
   import { menuListStore, setMenuList } from '../stores/menuListStore';
+  import { breadcrumbStore } from '../stores/breadcrumbStore';
+  import Breadcrumbs from "../components/Breadcrumbs.svelte";
   
   let themeData;
   let menuList = [];
@@ -103,7 +105,7 @@
   </div>
       </div>
       <div>
-          Content
+          <Breadcrumbs />
       </div>
       <div>
       </div>
