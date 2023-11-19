@@ -63,7 +63,8 @@
     themeStore.nextBrand(); // Change to the next brand
   }
 </script>
-<div class="flex flex-row justify-between items-center">
+<!-- Top Bar -->
+<div class="flex flex-row justify-between items-center mb-2 border-b-2 shadow-black py-1">
   <div class="flex flex-none bg-slate-200">
       <button on:click={handleLogoClick} class=" animate-pulse" aria-label="Change Theme">
           <img src="/img/PVH_Logo.svg" alt="PVH Logo" class="pvh-logo-button h-12">
@@ -76,14 +77,17 @@
       <!-- This will be updated by the script -->
   </div>
 </div>
-<div class="flex bg-blue-200">
+<!-- Middle Bar -->
+<div class="flex bg-blue-200 mb-2 border-b-2 shadow-black">
   <div>
       <!-- Tailwind CSS Dropdown Menu -->
       <div class="relative inline-block text-left dropdown-container">
           <div>
-              <button type="button" on:click={toggleDropdown} class="inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50" id="menu-button" aria-expanded={showDropdown} aria-haspopup="true">
-                  Divisions
-                  <!-- SVG icon here -->
+              <button type="button" on:click={toggleDropdown} class="inline-flex w-full justify-center rounded-md bg-white py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50" id="menu-button" aria-expanded={showDropdown} aria-haspopup="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                  </svg>
+                  <div class="px-2 pt-0">Divisions</div>
               </button>
           </div>
           {#if showDropdown}
@@ -105,18 +109,11 @@
   <div>
   </div>
 </div>
+<!-- Main Content -->
 <main class="container ${themeData ? 'theme-' + themeData.theme.toLowerCase() : ''}">
     <slot></slot>
 </main>
 <style>
-  .pvh-logo-button {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-
-
   .dropdown-container {
     z-index: 50; /* Make sure the dropdown is above most other elements */
   }
