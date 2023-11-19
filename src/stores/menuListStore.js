@@ -6,6 +6,7 @@ export const menuListStore = writable([]);
 
 // This function will be exported and used to set the menu list based on a given brand.
 export function setMenuList(brand) {
+    
     let menuList;
     let seasonCode = 'C42';
 

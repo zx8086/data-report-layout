@@ -110,7 +110,7 @@
   </div>
 </div>
 <!-- Main Content -->
-<main class="container ${themeData ? 'theme-' + themeData.theme.toLowerCase() : ''}">
+<main class="${themeData ? 'theme-' + themeData.theme.toLowerCase() : ''}">
     <slot></slot>
 </main>
 <style>

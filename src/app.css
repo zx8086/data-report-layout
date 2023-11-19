@@ -7,10 +7,9 @@
 
 /* Tommy Hilfiger theme styles */
 .theme-th {
-    /* Base styles for the th-theme */
-    @apply bg-tommy-background-lightest text-tommy-dark-blue;
-    
-    .btn-th {
+  /* Base styles for the th-theme */
+  @apply bg-tommy-background-lightest text-tommy-dark-blue;
+  .btn-th {
     @apply text-tommy-white bg-tommy-red border border-transparent font-bold py-2 px-4 rounded;
   }
   .btn-th:hover {
@@ -19,10 +18,9 @@
   .btn-th:focus {
     @apply ring-tommy-dark-blue ring-opacity-50 outline-none;
   }
-
   /* Styles for product cards in TH theme */
   .card-th {
-    @apply bg-tommy-white border border-tommy-background-medium-gray rounded-lg overflow-hidden;
+    @apply bg-tommy-white border-tommy-background-medium-gray rounded-lg overflow-hidden shadow-md border-2;
   }
   .card-th:hover {
     @apply shadow-lg;
