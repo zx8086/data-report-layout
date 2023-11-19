@@ -15,5 +15,4 @@ $: {
 }
 
 </script>
-
-This is the Divisional Page for {seasonCode} {divisionCode}
+<div class="${themeData ? 'theme-' + themeData.theme.toLowerCase() : ''}">This is the Divisional Page for {seasonCode} {divisionCode}</div>
