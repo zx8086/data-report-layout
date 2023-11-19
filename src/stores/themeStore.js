@@ -4,11 +4,10 @@ import { writable } from 'svelte/store';
 export const createThemeStore = () => {
   const { subscribe, set, update } = writable({
     theme: 'TH', // default theme
-    seasonCode: 'C42', // default season code
     brands: [
       { label: 'Tommy Hilfiger', value: 'TH', imageUrl: '/th/tommy-hilfiger-logo.png' },
-      { label: 'Calvin Klein', value: 'CK', imageUrl: '/th/tommy-hilfiger-logo.png' },
-      { label: 'Nike', value: 'NIKE', imageUrl: '/th/tommy-hilfiger-logo.png' }
+      { label: 'Calvin Klein', value: 'CK', imageUrl: '/ck/calvin-klein-logo.svg' },
+      { label: 'Nike', value: 'NIKE', imageUrl: '/ck/calvin-klein-logo.svg' }
     ],
     movies: {
       'TH': [{ title: 'Tommy Hilfiger', videoUrl: '/th.mp4' }],
@@ -34,12 +33,6 @@ export const createThemeStore = () => {
       localStorage.setItem('theme', themeValue);
       update(store => {
         store.theme = themeValue;
-        return store;
-      });
-    },
-    setSeasonCode: (seasonValue) => {
-      update(store => {
-        store.seasonCode = seasonValue;
         return store;
       });
     },
