@@ -7,7 +7,7 @@ export const createThemeStore = () => {
     brands: [
       { label: 'Tommy Hilfiger', value: 'TH', imageUrl: '/th/tommy-hilfiger-logo.png' },
       { label: 'Calvin Klein', value: 'CK', imageUrl: '/ck/calvin-klein-logo.svg' },
-      { label: 'Nike', value: 'NIKE', imageUrl: '/ck/calvin-klein-logo.svg' }
+      { label: 'Nike', value: 'NIKE', imageUrl: '/nike/nike-logo.svg' }
     ],
     movies: {
       'TH': [{ title: 'Tommy Hilfiger', videoUrl: '/th.mp4' }],
