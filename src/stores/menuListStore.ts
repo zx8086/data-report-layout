@@ -1,13 +1,23 @@
 // src/stores/menuListStore.js
 import { writable } from 'svelte/store';
 
+// Define the type for a menu item
+interface MenuItem {
+    href: string;
+    division: string;
+    name: string;
+    img: string;
+    theme: string;
+}
+
 // This creates a writable store with an initial empty array.
-export const menuListStore = writable([]);
+export const menuListStore = writable<MenuItem[]>([]);
+
 
 // This function will be exported and used to set the menu list based on a given brand.
-export function setMenuList(brand) {
-    
-    let menuList;
+export function setMenuList(brand: string): void  {
+
+    let menuList: MenuItem[];
     let seasonCode = 'C42';
 
     if (brand === 'TH') {
