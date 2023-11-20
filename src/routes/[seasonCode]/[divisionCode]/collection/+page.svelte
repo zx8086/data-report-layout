@@ -23,7 +23,7 @@
                 <div class="mt-6 grid grid-cols-7 gap-x-6 gap-y-6 ">
                     {#each {length: 40} as _, i}
                     <div class="group relative">
-                        <div class="card-th overflow-hidden rounded-md bg-gray-400 group-hover:opacity-75">
+                        <div class="overflow-hidden rounded-md bg-gray-400 group-hover:opacity-75">
                             <img src="http://s7g10.scene7.com/is/image/TommyHilfigerEU//MW0MW13720DW5_F_C4201?wid=150&hei=250" alt="This is an image" class="" on:error={handleImageError}>
                         </div>
                         <div class="mt-4 flex">

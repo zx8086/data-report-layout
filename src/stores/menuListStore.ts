@@ -13,7 +13,6 @@ interface MenuItem {
 // This creates a writable store with an initial empty array.
 export const menuListStore = writable<MenuItem[]>([]);
 
-
 // This function will be exported and used to set the menu list based on a given brand.
 export function setMenuList(brand: string): void  {
 

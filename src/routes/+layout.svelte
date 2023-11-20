@@ -4,8 +4,13 @@
   import { themeStore } from '../stores/themeStore';
   import { menuListStore, setMenuList } from '../stores/menuListStore';
   
-  let themeData;
-  let menuList = [];
+  let themeData: {
+    theme: string;
+    brands: { label: string; value: string; imageUrl: string; }[];
+    movies: Record<string, any[]>;
+  };
+  
+  let menuList: { href: string; division: string; name: string; img: string; theme: string; }[] = [];
   let showDropdown = false;
 
   themeStore.subscribe(($themeStore) => {
@@ -22,7 +27,7 @@
   }
 
   // Close the dropdown if clicked outside
-  function handleClickOutside(event) {
+  function handleClickOutside(event: MouseEvent) {
     if (!event.target.closest('.dropdown-container')) {
       showDropdown = false;
     }
@@ -32,7 +37,6 @@
     window.addEventListener('click', handleClickOutside);
     setMenuList(themeData.theme); // Set the menu list based on the initial theme
     updateVideoAndLogo(themeData); // Initial update when the component mounts
-    // ...
   });
 
   $: if (themeData && typeof window !== 'undefined') {
@@ -40,19 +44,27 @@
     updateVideoAndLogo(themeData);
   }
   
-  function updateVideoAndLogo(themeData) {
-    const videoElement = document.querySelector('.carousel-video');
-    const logoElement = document.querySelector('.brand-logo');
+  function updateVideoAndLogo(themeData: {
+    theme: string;
+    brands: { label: string; value: string; imageUrl: string; }[];
+    movies: Record<string, any[]>;
+  }) {
+    const videoElement = document.querySelector('.carousel-video') as HTMLVideoElement;
+    const logoElement = document.querySelector('.brand-logo') as HTMLImageElement;
     const themeTextElement = document.querySelector('.theme-text');
-  
+
     if (videoElement && themeData.movies[themeData.theme]) {
       videoElement.src = themeData.movies[themeData.theme][0].videoUrl;
     }
     if (logoElement) {
-      const currentBrand = themeData.brands.find(brand => brand.value === themeData.theme);
-      logoElement.src = currentBrand.imageUrl;
-      logoElement.alt = currentBrand.label;
+  const currentBrand = themeData.brands.find(brand => brand.value === themeData.theme);
+
+    if (currentBrand) {
+      (logoElement as HTMLImageElement).src = currentBrand.imageUrl;
+      (logoElement as HTMLImageElement).alt = currentBrand.label;
     }
+  }
+
     if (themeTextElement) {
       themeTextElement.textContent = themeData.theme;
     }
