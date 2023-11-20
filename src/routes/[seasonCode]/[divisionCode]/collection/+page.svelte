@@ -37,7 +37,19 @@
 </div>
     </div>
     <!-- Right Content -->
-    <div class="bg-green-200 w-1/5">
-        Right Content
+    <div class="bg-green-200 w-1/5 grid grid-cols-1">
+        Right Sidebar
+        <div class="">
+            <div class="bg-gray-200 rounded-md shadow-lg px-2 mx-2 overflow-y-scroll">
+                {#each {length: 12} as _, i}
+                <div class="my-4">
+                    <img src="http://s7g10.scene7.com/is/image/TommyHilfigerEU//MW0MW13720DW5_F_C4201?wid=150&hei=250" alt="This is an image" on:error={handleImageError}>
+                </div>
+                {/each}
+            </div>
+            <div class="bg-blue-500">Prices</div>
+            <div class="bg-rose-500">Delivery Dates</div>
+            <div class="bg-tommy-purple">Misc..</div>
+        </div>
     </div>
 </div>
