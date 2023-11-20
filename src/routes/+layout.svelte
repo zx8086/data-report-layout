@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import { onMount } from 'svelte';
-  import { themeStore } from '../stores/themeStore';
+  import { themeStore } from '../stores/themeStore'; // Make sure the import path is correct
   import { menuListStore, setMenuList } from '../stores/menuListStore';
 
   let themeData: {
@@ -13,9 +13,19 @@
   let menuList: { href: string; division: string; name: string; img: string; theme: string; }[] = [];
   let showDropdown = false;
 
+  let themeClass = '';
+
+  // Subscribe to the themeStore to get the current theme
+  themeStore.subscribe(({ theme }) => {
+    // Set the themeClass based on the current theme
+    themeClass = `theme-${theme.toLowerCase()}`;
+  });
+
   // Subscribe to the themeStore to observe changes in theme
   const unsubscribeTheme = themeStore.subscribe(($themeStore) => {
     themeData = $themeStore;
+    // Update the main content class based on the current theme
+    themeClass = `theme-${themeData.theme.toLowerCase()}`;
     setMenuList(themeData.theme); // Set the menu based on the current brand
   });
 
@@ -74,11 +84,6 @@
     themeStore.nextBrand(); // Change to the next brand
   }
 </script>
-
-<!-- Rest of your code remains the same -->
-
-
-
 <!-- Top Bar -->
 <div class="flex flex-row justify-between items-center mb-2 border-b-2 shadow-black py-1">
   <div class="flex flex-none bg-slate-200">
@@ -128,7 +133,7 @@
   </div>
 </div>
 <!-- Main Content -->
-<main class="theme-th">
+<main class="{themeClass}">
     <slot></slot>
 </main>
 <style>

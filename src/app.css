@@ -17,9 +17,9 @@
   .btn:focus {
     @apply ring-tommy-dark-blue ring-opacity-50 outline-none;
   }
-  /* Styles for product cards in TH theme */
+  /* Styles for product cards in CK theme */
   .card {
-    @apply bg-tommy-white border-tommy-background-medium-gray rounded-lg overflow-hidden shadow-md border-2;
+    @apply bg-white border border-gray-300 rounded-lg overflow-hidden;
   }
   .card:hover {
     @apply shadow-lg;
@@ -32,31 +32,27 @@
   .nav a {
     @apply text-tommy-white hover:text-tommy-light-gray;
   }
-
   /* Styles for headings in TH theme */
   .heading {
     @apply text-2xl font-bold text-tommy-dark-blue;
   }
-
   /* Styles for prices in TH theme */
   .price {
     @apply text-lg font-semibold text-tommy-red;
   }
-
   /* Other utility styles in TH theme */
   .placeholder {
     @apply placeholder-tommy-background-medium-gray;
   }
 
-/* Styles for the 'VIEW DETAILED REPORT' button in TH theme */
-.btn-detailed-report {
-  @apply text-tommy-white bg-tommy-background-medium-gray border border-transparent font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out;
-}
+  /* Styles for the 'VIEW DETAILED REPORT' button in TH theme */
+  .btn-detailed-report {
+    @apply text-tommy-white bg-tommy-background-medium-gray border border-transparent font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out;
+  }
 
-.btn-detailed-report:hover {
-  @apply bg-tommy-black; /* Change according to the hover color you want */
-}
-
+  .btn-detailed-report:hover {
+    @apply bg-tommy-black; /* Change according to the hover color you want */
+  }
 }
 
 /* Calvin Klein theme styles */

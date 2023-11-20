@@ -22,7 +22,7 @@ interface ThemeStoreState {
 
 export const createThemeStore = () => {
     const { subscribe, set, update } = writable<ThemeStoreState>({
-        theme: 'TH', // default theme
+        theme: 'TH',
         brands: [
             { label: 'Tommy Hilfiger', value: 'TH', imageUrl: '/th/tommy-hilfiger-logo.png' },
             { label: 'Calvin Klein', value: 'CK', imageUrl: '/ck/calvin-klein-logo.svg' },
