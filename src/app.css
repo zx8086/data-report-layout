@@ -8,55 +8,52 @@
 .theme-th {
   /* Base styles for the th-theme */
   @apply bg-tommy-background-lightest text-tommy-dark-blue;
-  .btn-th {
+  .btn {
     @apply text-tommy-white bg-tommy-red border border-transparent font-bold py-2 px-4 rounded;
   }
-  .btn-th:hover {
+  .btn:hover {
     @apply bg-tommy-orange; /* Assuming you want a darker red on hover */
   }
-  .btn-th:focus {
+  .btn:focus {
     @apply ring-tommy-dark-blue ring-opacity-50 outline-none;
   }
   /* Styles for product cards in TH theme */
-  .card-th {
+  .card {
     @apply bg-tommy-white border-tommy-background-medium-gray rounded-lg overflow-hidden shadow-md border-2;
   }
-  .card-th:hover {
+  .card:hover {
     @apply shadow-lg;
   }
 
   /* Styles for navigation in TH theme */
-  .nav-th {
+  .nav {
     @apply bg-tommy-background-navy text-tommy-white;
   }
-  .nav-th a {
+  .nav a {
     @apply text-tommy-white hover:text-tommy-light-gray;
   }
 
   /* Styles for headings in TH theme */
-  .heading-th {
+  .heading {
     @apply text-2xl font-bold text-tommy-dark-blue;
   }
 
   /* Styles for prices in TH theme */
-  .price-th {
+  .price {
     @apply text-lg font-semibold text-tommy-red;
   }
 
   /* Other utility styles in TH theme */
-  .border-th {
-    @apply border-tommy-border-dark-blue;
-  }
-  .placeholder-th {
+  .placeholder {
     @apply placeholder-tommy-background-medium-gray;
   }
 
 /* Styles for the 'VIEW DETAILED REPORT' button in TH theme */
-.btn-th-detailed-report {
+.btn-detailed-report {
   @apply text-tommy-white bg-tommy-background-medium-gray border border-transparent font-bold py-2 px-4 rounded transition-colors duration-300 ease-in-out;
 }
 
-.btn-th-detailed-report:hover {
+.btn-detailed-report:hover {
   @apply bg-tommy-black; /* Change according to the hover color you want */
 }
 
@@ -68,52 +65,49 @@
   @apply bg-white text-gray-800;
 
   /* Styles for buttons in CK theme */
-  .btn-ck {
+  .btn {
     @apply text-white bg-black border border-transparent font-bold py-2 px-4 rounded;
   }
-  .btn-ck:hover {
+  .btn:hover {
     @apply bg-gray-800; /* A slightly lighter black on hover */
   }
-  .btn-ck:focus {
+  .btn:focus {
     @apply ring-gray-800 ring-opacity-50 outline-none;
   }
 
   /* Styles for product cards in CK theme */
-  .card-ck {
+  .card {
     @apply bg-white border border-gray-300 rounded-lg overflow-hidden;
   }
-  .card-ck:hover {
+  .card:hover {
     @apply shadow-lg;
   }
 
   /* Styles for navigation in CK theme */
-  .nav-ck {
+  .nav {
     @apply bg-gray-900 text-white;
   }
-  .nav-ck a {
+  .nav a {
     @apply text-white hover:text-gray-300;
   }
 
   /* Styles for headings in CK theme */
-  .heading-ck {
+  .heading {
     @apply text-3xl font-bold text-gray-900;
   }
 
   /* Styles for text in CK theme */
-  .text-ck {
+  .text {
     @apply font-sans text-base font-normal leading-normal;
   }
 
   /* Styles for prices in CK theme */
-  .price-ck {
+  .price {
     @apply text-lg font-semibold text-black;
   }
 
   /* Other utility styles in CK theme */
-  .border-ck {
-    @apply border-gray-300;
-  }
-  .placeholder-ck {
+  .placeholder {
     @apply placeholder-gray-500;
   }
 

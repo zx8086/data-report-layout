@@ -3,17 +3,18 @@
   import { onMount } from 'svelte';
   import { themeStore } from '../stores/themeStore';
   import { menuListStore, setMenuList } from '../stores/menuListStore';
-  
+
   let themeData: {
     theme: string;
     brands: { label: string; value: string; imageUrl: string; }[];
     movies: Record<string, any[]>;
   };
-  
+
   let menuList: { href: string; division: string; name: string; img: string; theme: string; }[] = [];
   let showDropdown = false;
 
-  themeStore.subscribe(($themeStore) => {
+  // Subscribe to the themeStore to observe changes in theme
+  const unsubscribeTheme = themeStore.subscribe(($themeStore) => {
     themeData = $themeStore;
     setMenuList(themeData.theme); // Set the menu based on the current brand
   });
@@ -33,48 +34,51 @@
     }
   }
 
-  onMount(() => {
-    window.addEventListener('click', handleClickOutside);
-    setMenuList(themeData.theme); // Set the menu list based on the initial theme
-    updateVideoAndLogo(themeData); // Initial update when the component mounts
-  });
-
-  $: if (themeData && typeof window !== 'undefined') {
+  $: if (themeData) {
     setMenuList(themeData.theme); // Update the menu list reactively when the theme changes
     updateVideoAndLogo(themeData);
   }
-  
+
+  // Function to update video and logo
   function updateVideoAndLogo(themeData: {
     theme: string;
     brands: { label: string; value: string; imageUrl: string; }[];
     movies: Record<string, any[]>;
   }) {
-    const videoElement = document.querySelector('.carousel-video') as HTMLVideoElement;
-    const logoElement = document.querySelector('.brand-logo') as HTMLImageElement;
-    const themeTextElement = document.querySelector('.theme-text');
+    onMount(() => {
+      // This code will run only in the browser environment
+      const videoElement = document.querySelector('.carousel-video') as HTMLVideoElement;
+      const logoElement = document.querySelector('.brand-logo') as HTMLImageElement;
+      const themeTextElement = document.querySelector('.theme-text');
 
-    if (videoElement && themeData.movies[themeData.theme]) {
-      videoElement.src = themeData.movies[themeData.theme][0].videoUrl;
-    }
-    if (logoElement) {
-  const currentBrand = themeData.brands.find(brand => brand.value === themeData.theme);
+      if (videoElement && themeData.movies[themeData.theme]) {
+        videoElement.src = themeData.movies[themeData.theme][0].videoUrl;
+      }
+      if (logoElement) {
+        const currentBrand = themeData.brands.find(brand => brand.value === themeData.theme);
 
-    if (currentBrand) {
-      (logoElement as HTMLImageElement).src = currentBrand.imageUrl;
-      (logoElement as HTMLImageElement).alt = currentBrand.label;
-    }
+        if (currentBrand) {
+          logoElement.src = currentBrand.imageUrl;
+          logoElement.alt = currentBrand.label;
+        }
+      }
+
+      if (themeTextElement) {
+        themeTextElement.textContent = themeData.theme;
+      }
+    });
   }
 
-    if (themeTextElement) {
-      themeTextElement.textContent = themeData.theme;
-    }
-  }
-  
   // Function to handle the button click
   function handleLogoClick() {
     themeStore.nextBrand(); // Change to the next brand
   }
 </script>
+
+<!-- Rest of your code remains the same -->
+
+
+
 <!-- Top Bar -->
 <div class="flex flex-row justify-between items-center mb-2 border-b-2 shadow-black py-1">
   <div class="flex flex-none bg-slate-200">
@@ -83,7 +87,9 @@
       </button>
   </div>
   <div class="flex flex-none">
+    <!-- <a href="/"> -->
       <img class="flex-none brand-logo h-12" alt="logo" />
+    <!-- </a> -->
   </div>
   <div class="flex-none w-12 bg-red-500 theme-text">
       <!-- This will be updated by the script -->
@@ -122,7 +128,7 @@
   </div>
 </div>
 <!-- Main Content -->
-<main class="${themeData ? 'theme-' + themeData.theme.toLowerCase() : ''}">
+<main class="theme-th">
     <slot></slot>
 </main>
 <style>

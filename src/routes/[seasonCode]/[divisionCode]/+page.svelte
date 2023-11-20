@@ -15,4 +15,4 @@ $: {
 }
 
 </script>
-<div class="">This is the Divisional Page for {seasonCode} {divisionCode}</div>
+<div class="header">This is the Divisional Page for {seasonCode} {divisionCode}</div>
