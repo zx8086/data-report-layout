@@ -9,6 +9,17 @@
     // Prevents the fallback image from triggering an infinite loop if it's also missing
     event.target.onerror = null;
 }
+
+let inputElement;
+
+function handleFocus() {
+  inputElement.placeholder = 'TYPE A NAME OR NUMBER';
+}
+
+function handleBlur() {
+  inputElement.placeholder = 'SEARCH';
+}
+
 </script>
 
 <div class="flex flex-row justify-between h-full">
@@ -17,7 +28,30 @@
         Left Sidebar
     </div>
     <!-- Main Content -->
-    <div class="bg-gray-600 flex">
+    <div class="bg-gray-600 flex flex-col">
+        <div class="flex flex-row justify-between">
+            <div class="bg-red-300 w-1/5">Filters</div>
+            <div class=" bg-amber-200">Middle</div>
+            <div class="flex relative bg-orange-500 w-2/5">
+                <div class="flex flex-row">
+                    <div>            <!-- Icon from Heroicons -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
+                <div>
+                                <!-- Input element -->
+            <input bind:this={inputElement} type="text" placeholder="Search" class="transition-all duration-300 ease-in-out border-2 border-gray-300 focus:border-blue-500 focus:ring-0 w-36 focus:w-96 p-2 pl-10 rounded-md absolute right-0"
+                on:focus={handleFocus}
+                on:blur={handleBlur}
+            />
+                </div>
+                </div>
+
+
+            </div>
+        </div>
+
         <div class="bg-white">
             <div class="">
                 <div class="mt-6 grid grid-cols-7 gap-x-6 gap-y-6 ">
