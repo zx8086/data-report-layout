@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { PageData } from './$types';
     import { selectedProduct } from '../../../../stores/productStore';
+    import { productsStore, filteredProducts, searchedProducts } from '../../../../stores/productsStore';
+
     
     export let data: PageData;
 
@@ -30,6 +32,24 @@
         selectedProduct.set("MW0MW13720DW5");
     }
 
+
+    // Reactive variable for the search input
+    let searchInput = '';
+
+  // Function to update search input
+    function updateSearchInput(event) {
+        searchInput.set(event.target.value);
+    }
+
+  // Function to handle filter button click (example for missing image)
+    function handleFilterButtonClick() {
+        activeFilters.update(filters => {
+            filters.missingImage = !filters.missingImage;
+            return filters;
+        });
+    }
+
+
 </script>
 
 <div class="flex h-full">
@@ -51,19 +71,33 @@
     <!-- Center Content -->
     <div class="bg-gray-600 flex-grow">
         <div class="bg-white flex justify-center">
-            <div class="flex">
-                <div class="grid grid-cols-6 gap-x-1 gap-y-6 justify-items-center">
-                    {#each {length: 40} as _, i}
-                    <div class="flex flex-col items-center">
-                        <div class="card group-hover:opacity-75" on:click={handleSelectProduct}>
-                            <img src="http://s7g10.scene7.com/is/image/TommyHilfigerEU//MW0MW13720DW5_F_C4201?wid=150&hei=250" alt="This is an image" on:error={handleImageError}>
-                            <!-- <Product {product} on:select={handleSelectProduct} /> -->
-                        </div>
-                        <div class="text-sm">MW0MW13720DW5</div>
-                        <div class="text-sm">WCC TOMMY LOGO HOODY</div>
+            <div class="flex flex-col">
+                <div class="flex row-span-full justify-between mb-10">
+                    <div class="relative"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                    </svg>
+                    </div>
+                    <div>
+                        <div class="relative">
+                        <!-- Input element -->
+                        <input bind:this={inputElement} type="text" placeholder="Search" class="transition-all duration-300 ease-in-out border-2 border-gray-300 focus:border-blue-500 focus:ring-0 w-36 focus:w-96 p-2 pl-10 rounded-md absolute right-0"
+                        on:focus={handleFocus}
+                        on:blur={handleBlur}/>
+                    </div></div>
                 </div>
-            {/each}
+<!-- Products Grid -->
+<div class="grid grid-cols-6 gap-x-1 gap-y-6 justify-items-center">
+    {#each $searchedProducts as product}
+      <div class="flex flex-col items-center">
+        <div class="card group-hover:opacity-75" on:click={() => handleSelectProduct(product.productId)}>
+          <img src={product.isImageAvailable ? product.imageUrl : '/img/not-found.png'}
+              alt={product.productDescription} on:error={handleImageError}>
         </div>
+        <div class="text-sm">{product.productId}</div>
+        <div class="text-sm">{product.productDescription}</div>
+      </div>
+    {/each}
+  </div>
     </div>
 </div>
     </div>
