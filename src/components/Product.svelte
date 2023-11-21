@@ -3,12 +3,16 @@
     import { createEventDispatcher } from 'svelte';
     export let product;
     const dispatch = createEventDispatcher();
-    
+
     function selectProduct() {
-        dispatch('select', { productKey: product.key });
+        // Dispatch the entire product object up to the parent
+        dispatch('select', { product });
     }
 </script>
 
 <div class="product" on:click={selectProduct}>
-    <!-- Product details here -->
+    <img src={product.isImageAvailable ? product.imageUrl : '/img/not-found.png'}
+        alt={product.productDescription}>
+    <div class="text-sm">{product.productId}</div>
+    <div class="text-sm">{product.productDescription}</div>
 </div>
