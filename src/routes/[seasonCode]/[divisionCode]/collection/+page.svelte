@@ -49,18 +49,21 @@
 
 <div class="flex h-full">
     <!-- Left Sidebar -->
-    <div class="w-1/5 mx-6 mb-5 transition-opacity bg-gray-100 sidebar-left" class:hidden={$selectedProduct === null}>
-        <div class="flex flex-col overflow-y-auto rounded-md h-1/4">
+    <div class="w-1/5 mx-6 transition-opacity bg-gray-100 sidebar-left" class:hidden={$selectedProduct === null}>
+        <div class="flex flex-col rounded-md">
             <button class="flex justify-end close-btn" on:click={() => selectedProduct.set(null)}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
             </svg>
             </button>
             {#if $selectedProduct}
-            <div class="flex rounded-md h-34">
-                <div class="flex flex-col justify-center overflow-y-auto h-w-full">
-                    <img class="my-2" src={$selectedProduct.imageFrontUrl} alt="Front image" on:error={handleImageError}>
-                    <img class="my-2" src={$selectedProduct.imageBackUrl} alt="Back image" on:error={handleImageError}>
-                    <img class="my-2" src={$selectedProduct.imageDetailUrl} alt="Detail image" on:error={handleImageError}>
+            <div class="flex rounded-md">
+                <div class="flex flex-col justify-center mx-6 rounded-md shadow-lg">
+                    <img class="mb-5 rounded-md" src={$selectedProduct.imageFrontUrl} alt="Front image" on:error={handleImageError}>
+                    <img class="mb-5 rounded-md" src={$selectedProduct.imageBackUrl} alt="Back image" on:error={handleImageError}>
+                    <img class="mb-5 rounded-md " src={$selectedProduct.imageDetailUrl} alt="Detail image" on:error={handleImageError}>
+                    <img class="mb-5 rounded-md " src={$selectedProduct.imageDetail2Url} alt="Detail image" on:error={handleImageError}>
+                    <img class="mb-5 rounded-md" src={$selectedProduct.imageDetail3Url} alt="Detail image" on:error={handleImageError}>
+                    <img class="mb-5 rounded-md" src={$selectedProduct.imageFabricScanUrl} alt="Fabric scan image" on:error={handleImageError}>
                 </div>
             </div>
             {/if}
