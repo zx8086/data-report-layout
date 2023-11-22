@@ -5,9 +5,9 @@ import { writable, derived } from 'svelte/store';
 export let searchInput = writable('');
 
 export const activeFilters = writable({
-    missingImage: false,
-    missingDeliveryDate: false,
-    missingPrice: false,
+    missingImages: false,
+    missingDeliveryDates: false,
+    missingPrices: false,
     soldOutOptions: false,
     cancelledOptions: false,
     missingSizes: false,
@@ -19,11 +19,11 @@ const mockProducts = [
     {
         productId: "MW0MW13720DW5",
         productDescription: "WCC TOMMY LOGO HOODY",
-        price: 139.9,
-        deliveryDate: "2021-01-01",
+        prices: 139.9,
+        deliveryDates: "2021-02-01",
         isImageAvailable: true,
-        isDeliveryDateAvailable: true,
-        isPriceAvailable: true,
+        isDeliveryDatesAvailable: true,
+        isPricesAvailable: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: true,
@@ -39,11 +39,11 @@ const mockProducts = [
     {
         productId: "MW0MW11596YBR",
         productDescription: "TOMMY LOGO SWEATSHIRT",
-        price: 119.9,
-        deliveryDate: "2021-02-01",
+        prices: 119.9,
+        deliveryDates: "2021-01-01",
         isImageAvailable: true,
-        isDeliveryDateAvailable: true,
-        isPriceAvailable: true,
+        isDeliveryDatesAvailable: true,
+        isPricesAvailable: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: true,
@@ -59,11 +59,11 @@ const mockProducts = [
     {
         productId: "MW0MW177700A4",
         productDescription: "1985 REGULAR POLO",
-        price: 69.9,
-        deliveryDate: "2021-03-01",
+        prices: 59.9,
+        deliveryDates: "2021-04-01",
         isImageAvailable: true,
-        isDeliveryDateAvailable: true,
-        isPriceAvailable: true,
+        isDeliveryDatesAvailable: true,
+        isPricesAvailable: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: true,
@@ -79,11 +79,11 @@ const mockProducts = [
     {
         productId: "MW0MW358040KP",
         productDescription: "CL STRETCH TWILL GINGHAM RF SHRT",
-        price: 99.9,
-        deliveryDate: "2021-04-01",
+        prices: 79.9,
+        deliveryDates: "2021-04-01",
         isImageAvailable: true,
-        isDeliveryDateAvailable: true,
-        isPriceAvailable: true,
+        isDeliveryDatesAvailable: true,
+        isPricesAvailable: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: true,
@@ -106,22 +106,27 @@ export const filteredProducts = derived(
     [productsStore, activeFilters],
     ([$productsStore, $activeFilters]) => {
         return $productsStore.filter(product => {
-            if ($activeFilters.missingImage && !product.isImageAvailable) return false;
-            if ($activeFilters.missingDeliveryDate && !product.isDeliveryDateAvailable) return false;
-            if ($activeFilters.missingPrice && !product.isPriceAvailable) return false;
-            // Add other filter conditions here
+            if ($activeFilters.isImageAvailable && product.isImageAvailable) return false;
+            if ($activeFilters.isDeliveryDatesAvailable && product.isDeliveryDatesAvailable) return false;
+            if ($activeFilters.isPricesAvailable && product.isPricesAvailable) return false;
+            if ($activeFilters.soldOut && product.isSoldOut) return false;
+            if ($activeFilters.cancelled && product.isCancelled) return false;
+            if ($activeFilters.missingSizes && product.isMissingSizes) return false;
+            if ($activeFilters.isMissingImStyles && product.isMissingImStyles) return false;
             return true;
         });
     }
 );
 
-
 export const searchedProducts = derived(
     [filteredProducts, searchInput],
     ([$filteredProducts, $searchInput]) => {
-        if (!$searchInput.trim()) return $filteredProducts;
+        const searchLower = $searchInput.trim().toLowerCase();
+        if (!searchLower) return $filteredProducts; // if search input is empty, return all filtered products
         return $filteredProducts.filter(product =>
-            product.productDescription.toLowerCase().includes($searchInput.toLowerCase())
+            product.productDescription.toLowerCase().includes(searchLower) ||
+            product.productId.toLowerCase().includes(searchLower)
         );
     }
 );
+
