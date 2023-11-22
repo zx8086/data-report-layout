@@ -1,10 +1,17 @@
 // productsStore.ts
 import { writable, derived } from 'svelte/store';
 
-// Define a store for active filters. This should be outside of the component script.
+// Reactive variable for search input, initialized outside the component to be used in derived stores.
+export let searchInput = writable('');
+
 export const activeFilters = writable({
     missingImage: false,
     missingDeliveryDate: false,
+    missingPrice: false,
+    soldOutOptions: false,
+    cancelledOptions: false,
+    missingSizes: false,
+    missingImStyles: false,
 });
 
 // Mock product data with all necessary attributes, logic on Couchbase Side.
@@ -94,23 +101,27 @@ const mockProducts = [
 // Svelte store to hold the products
 export const productsStore = writable(mockProducts);
 
-// Reactive variable for search input, initialized outside the component to be used in derived stores.
-export let searchInput = writable('');
-
 // Derived store to handle filtered products
-export const filteredProducts = derived([productsStore, activeFilters], ([$productsStore, $activeFilters]) => {
-    return $productsStore.filter(product => {
-    if ($activeFilters.missingImage && !product.isImageAvailable) return false;
-    if ($activeFilters.missingDeliveryDate && !product.isDeliveryDateAvailable) return false;
-    // ... other filter checks
-    return true;
-});
-});
+export const filteredProducts = derived(
+    [productsStore, activeFilters],
+    ([$productsStore, $activeFilters]) => {
+        return $productsStore.filter(product => {
+            if ($activeFilters.missingImage && !product.isImageAvailable) return false;
+            if ($activeFilters.missingDeliveryDate && !product.isDeliveryDateAvailable) return false;
+            if ($activeFilters.missingPrice && !product.isPriceAvailable) return false;
+            // Add other filter conditions here
+            return true;
+        });
+    }
+);
 
-// Derived store to handle search functionality
-export const searchedProducts = derived([filteredProducts, searchInput], ([$filteredProducts, $searchInput]) => {
-    if ($searchInput.trim() === '') return $filteredProducts;
-    return $filteredProducts.filter(product =>
-    product.productDescription.toLowerCase().includes($searchInput.toLowerCase())
-    );
-});
+
+export const searchedProducts = derived(
+    [filteredProducts, searchInput],
+    ([$filteredProducts, $searchInput]) => {
+        if (!$searchInput.trim()) return $filteredProducts;
+        return $filteredProducts.filter(product =>
+            product.productDescription.toLowerCase().includes($searchInput.toLowerCase())
+        );
+    }
+);

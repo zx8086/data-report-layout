@@ -4,8 +4,10 @@
     export let product;
     const dispatch = createEventDispatcher();
 
+    export let activeFilters; // make sure to import this from your store if it's defined externally
+
+    
     function selectProduct() {
-        // Dispatch the entire product object up to the parent
         dispatch('select', { product });
     }
 </script>

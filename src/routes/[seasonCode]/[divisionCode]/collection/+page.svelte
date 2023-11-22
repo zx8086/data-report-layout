@@ -2,10 +2,26 @@
     import type { PageData } from './$types';
     import { selectedProduct } from '../../../../stores/productStore';
     import { productsStore, filteredProducts, searchedProducts } from '../../../../stores/productsStore';
-
+    import { writable, derived } from 'svelte/store';
     import Product from '../../../../components/Product.svelte';
 
     export let data: PageData;
+
+//     export let activeFilters;
+    
+//     export const searchedProducts = derived(
+//     [filteredProducts, searchInput],
+//     ([$filteredProducts, $searchInput]) => {
+//         if (!$searchInput.trim()) return $filteredProducts;
+//         return $filteredProducts.filter(product =>
+//             product.productDescription.toLowerCase().includes($searchInput.toLowerCase())
+//         );
+//     }
+// );
+
+
+    // Reactive variable for the search input
+    export let searchInput = writable('');
 
     // You can define a function to handle the error
     function handleImageError(event: any) {
@@ -14,27 +30,20 @@
     event.target.onerror = null;
     }
 
-    let inputElement: any;
+let inputElement: HTMLInputElement | null = null;
 
-    function handleFocus() {
-        inputElement.placeholder = 'TYPE A NAME OR NUMBER';
-    }
+function handleFocus() {
+    if (inputElement) inputElement.placeholder = 'TYPE A NAME OR NUMBER';
+}
 
-    function handleBlur() {
-        inputElement.placeholder = 'SEARCH';
-    }
+function handleBlur() {
+    if (inputElement) inputElement.placeholder = 'SEARCH';
+}
+
 
     function handleSelectProduct(product) {
         selectedProduct.set(product);
         console.log("Main Content click -",product);
-    }
-
-    // Reactive variable for the search input
-    let searchInput = '';
-
-    // Function to update search input
-    function updateSearchInput(event) {
-        searchInput.set(event.target.value);
     }
 
     // Function to handle filter button click (example for missing image)
@@ -84,9 +93,11 @@
                     <div>
                         <div class="relative">
                         <!-- Input element -->
-                        <input bind:this={inputElement} type="text" placeholder="Search" class="absolute right-0 p-2 pl-10 transition-all duration-300 ease-in-out border-2 border-gray-300 rounded-md focus:border-blue-500 focus:ring-0 w-36 focus:w-96"
+                        <input bind:this={inputElement}  type="text" placeholder="Search" class="absolute right-0 p-2 pl-10 transition-all duration-300 ease-in-out border-2 border-gray-300 rounded-md focus:border-blue-500 focus:ring-0 w-36 focus:w-96"
+                        on:input={event => searchInput.set(event.target.value)}
                         on:focus={handleFocus}
-                        on:blur={handleBlur}/>
+                        on:blur={handleBlur}                       
+                        />
                     </div></div>
                 </div>
                 <!-- Products Grid -->
