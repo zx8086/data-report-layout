@@ -1,13 +1,16 @@
 // productsStore.ts
 import { writable, derived } from 'svelte/store';
+import type { Product } from '../lib/types';
+
+// let products: Product[] = [];
 
 // Reactive variable for search input, initialized outside the component to be used in derived stores.
 export let searchInput = writable('');
 
 export const activeFilters = writable({
-    isImageAvailable: false,
-    isDeliveryDatesAvailable: false,
-    isPricesAvailable: false,
+    isMissingImages: false,
+    isMissingDeliveryDates: false,
+    isMissingPrices: false,
     isSoldOut: false,
     isCancelled: false,
     isMissingSizes: false,
@@ -20,13 +23,13 @@ const mockProducts = [
         productDescription: "WCC TOMMY LOGO HOODY",
         prices: 139.9,
         deliveryDates: "2021-02-01",
-        isImageAvailable: true,
-        isDeliveryDatesAvailable: false,
-        isPricesAvailable: true,
+        isMissingImages: true,
+        isMissingDeliveryDates: false,
+        isMissingPrices: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: false,
-        isMissingImStyles: false,
+        isMissingImStyles: true,
         imageUrl: 'http://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW13720DW5_F_C4201?wid=150&hei=250',
         imageFrontUrl: 'http://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW13720DW5_F_C4201',
         imageBackUrl: 'http://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW13720DW5_B_C4201',
@@ -40,9 +43,9 @@ const mockProducts = [
         productDescription: "TOMMY LOGO SWEATSHIRT",
         prices: 119.9,
         deliveryDates: "2021-01-01",
-        isImageAvailable: true,
-        isDeliveryDatesAvailable: false,
-        isPricesAvailable: false,
+        isMissingImages: true,
+        isMissingDeliveryDates: false,
+        isMissingPrices: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: false,
@@ -60,13 +63,13 @@ const mockProducts = [
         productDescription: "1985 REGULAR POLO",
         prices: 59.9,
         deliveryDates: "2021-04-01",
-        isImageAvailable: true,
-        isDeliveryDatesAvailable: false,
-        isPricesAvailable: false,
+        isMissingImages: true,
+        isMissingDeliveryDates: false,
+        isMissingPrices: true,
         isSoldOut: false,
         isCancelled: false,
         isMissingSizes: false,
-        isMissingImStyles: true,
+        isMissingImStyles: false,
         imageUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW177700A4_F_C4201?wid=150&hei=250',
         imageFrontUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW177700A4_F_C4201',
         imageBackUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW177700A4_B_C4201',
@@ -80,12 +83,12 @@ const mockProducts = [
         productDescription: "CL STRETCH TWILL GINGHAM RF SHRT",
         prices: 79.9,
         deliveryDates: "2021-04-01",
-        isImageAvailable: true,
-        isDeliveryDatesAvailable: false,
-        isPricesAvailable: true,
-        isSoldOut: true,
-        isCancelled: true,
-        isMissingSizes: true,
+        isMissingImages: true,
+        isMissingDeliveryDates: false,
+        isMissingPrices: true,
+        isSoldOut: false,
+        isCancelled: false,
+        isMissingSizes: false,
         isMissingImStyles: true,
         imageUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW358040KP_F_C4201?wid=150&hei=250',
         imageFrontUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW358040KP_F_C4201',
@@ -105,9 +108,9 @@ export const filteredProducts = derived(
     [productsStore, activeFilters],
     ([$productsStore, $activeFilters]) => {
         return $productsStore.filter(product => {
-            if ($activeFilters.isImageAvailable && product.isImageAvailable) return false;
-            if ($activeFilters.isDeliveryDatesAvailable && product.isDeliveryDatesAvailable) return false;
-            if ($activeFilters.isPricesAvailable && product.isPricesAvailable) return false;
+            if ($activeFilters.isMissingImages && product.isMissingImages) return false;
+            if ($activeFilters.isMissingDeliveryDates && product.isMissingDeliveryDates) return false;
+            if ($activeFilters.isMissingPrices && product.isMissingPrices) return false;
             if ($activeFilters.isSoldOut && product.isSoldOut) return false;
             if ($activeFilters.isCancelled && product.isCancelled) return false;
             if ($activeFilters.isMissingSizes && product.isMissingSizes) return false;
@@ -117,7 +120,7 @@ export const filteredProducts = derived(
     }
 );
 
-
+// Derived store to handle searched products
 export const searchedProducts = derived(
     [filteredProducts, searchInput],
     ([$filteredProducts, $searchInput]) => {
@@ -129,4 +132,3 @@ export const searchedProducts = derived(
         );
     }
 );
-

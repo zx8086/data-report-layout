@@ -1,24 +1,7 @@
 // src/stores/themeStore.ts
 import { writable } from 'svelte/store';
+import type { Brand, Movies, ThemeStoreState } from '../lib/types';
 
-// Define the type for a brand
-interface Brand {
-    label: string;
-    value: string;
-    imageUrl: string;
-}
-
-// Define the type for movies
-interface Movies {
-    [key: string]: { title: string; videoUrl: string }[];
-}
-
-// Define the type for the theme store state
-interface ThemeStoreState {
-    theme: string;
-    brands: Brand[];
-    movies: Movies;
-}
 
 export const createThemeStore = () => {
     const { subscribe, set, update } = writable<ThemeStoreState>({
@@ -75,7 +58,6 @@ export const createThemeStore = () => {
                 return store;
             });
         },
-        // any other methods you might want to add...
     };
 };
 

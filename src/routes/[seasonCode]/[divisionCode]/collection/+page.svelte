@@ -1,17 +1,13 @@
 <script lang="ts">
     import type { PageData } from './$types';
     import { selectedProduct } from '../../../../stores/productStore';
-    import { productsStore, filteredProducts } from '../../../../stores/productsStore';
-
-    import { activeFilters } from '../../../../stores/filtersStore'; // Import your filters store
-    import { searchInput, searchedProducts } from '../../../../stores/productsStore'; // Import searchInput from the productsStore
-    
-    import { writable, derived } from 'svelte/store';
+    import { activeFilters } from '../../../../stores/filtersStore';
+    import { searchInput, searchedProducts } from '../../../../stores/productsStore';
     import Product from '../../../../components/Product.svelte';
 
     export let data: PageData;
 
-    let showFilters = false; // State to show/hide the filter box
+    let showFilters = false;
 
     // Function to toggle filter box visibility
     function toggleFilters() {
@@ -21,9 +17,9 @@
     // Function to clear all filters
     function clearFilters() {
         activeFilters.set({
-            isImageAvailable: false,
-            isDeliveryDatesAvailable: false,
-            isPricesAvailable: false,
+            isMissingImages: false,
+            isMissingDeliveryDates: false,
+            isMissingPrices: false,
             isSoldOut: false,
             isCancelled: false,
             isMissingSizes: false,
@@ -56,7 +52,7 @@ function handleSelectProduct(product) {
 // Function to handle filter button click
 function handleFilterButtonClick() {
     activeFilters.update(filters => {
-        filters.missingImages = !filters.missingImages;
+        filters.isMissingImages = !filters.isMissingImages;
         return filters;
     });
 }
@@ -106,15 +102,15 @@ function handleFilterButtonClick() {
                         <div class={`relative bg-white p-4 rounded-lg shadow-md z-10 ${showFilters ? 'block' : 'hidden'}`} style="top: 0%; right: 0%;">
                             <form>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isImageAvailable}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isMissingImages}>
                                     <span>Missing Images</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isPricesAvailable}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isMissingPrices}>
                                     <span>Missing Prices</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isDeliveryDatesAvailable}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isMissingDeliveryDates}>
                                     <span>Missing Delivery Dates</span>
                                 </label>
                                 <label class="flex items-center space-x-2">

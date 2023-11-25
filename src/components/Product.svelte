@@ -1,8 +1,10 @@
 <!-- src/components/Product.svelte -->
-<script>
+<script lang="ts">
     import { createEventDispatcher } from 'svelte';
-    export let product;
-    export let activeFilters;
+    import { activeFilters } from '../stores/filtersStore';
+    import type { Product } from '../lib/types';
+    
+    export let product: Product;
 
     const dispatch = createEventDispatcher();
 
@@ -11,20 +13,22 @@
     }
 </script>
 
+
 {#if (
-    (!activeFilters.isImageAvailable || !product.isImageAvailable) &&
-    (!activeFilters.isDeliveryDatesAvailable || !product.isDeliveryDatesAvailable) &&
-    (!activeFilters.isPricesAvailable || !product.isPricesAvailable) &&
-    (!activeFilters.isSoldOut || product.isSoldOut) &&
-    (!activeFilters.isCancelled || product.isCancelled) &&
-    (!activeFilters.isMissingSizes || product.isMissingSizes) &&
-    (!activeFilters.isMissingImStyles || product.isMissingImStyles)
+    (!$activeFilters.isMissingImages || !product.isMissingImages) &&
+    (!$activeFilters.isMissingDeliveryDates || !product.isMissingDeliveryDates) &&
+    (!$activeFilters.isMissingPrices || !product.isMissingPrices) &&
+    (!$activeFilters.isSoldOut || product.isSoldOut) &&
+    (!$activeFilters.isCancelled || product.isCancelled) &&
+    (!$activeFilters.isMissingSizes || product.isMissingSizes) &&
+    (!$activeFilters.isMissingImStyles || product.isMissingImStyles)
 )}
 
 
-<div class="product" on:click={selectProduct}>
-    <img src={product.isImageAvailable ? product.imageUrl : '/img/not-found.png'} alt={product.productDescription}>
-    <div class="text-sm">{product.productId}</div>
-    <div class="text-sm">{product.productDescription}</div>
+<div class="product" tabindex="0"  on:click={selectProduct} role="button">
+    <img src={product.isMissingImages ? product.imageUrl : '/img/not-found.png'} alt={product.productDescription}>
+    <div class="justify-center text-sm ">{product.productId}</div>
+    <div class="text-xs">{product.productDescription}</div>
 </div>
+
 {/if}
