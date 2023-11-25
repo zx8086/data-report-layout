@@ -1,8 +1,5 @@
 // productsStore.ts
 import { writable, derived } from 'svelte/store';
-import type { Product } from '../lib/types';
-
-// let products: Product[] = [];
 
 // Reactive variable for search input, initialized outside the component to be used in derived stores.
 export let searchInput = writable('');
@@ -23,7 +20,7 @@ const mockProducts = [
         productDescription: "WCC TOMMY LOGO HOODY",
         prices: 139.9,
         deliveryDates: "2021-02-01",
-        isMissingImages: true,
+        isMissingImages: false,
         isMissingDeliveryDates: false,
         isMissingPrices: true,
         isSoldOut: false,
@@ -107,23 +104,35 @@ export const productsStore = writable(mockProducts);
 export const filteredProducts = derived(
     [productsStore, activeFilters],
     ([$productsStore, $activeFilters]) => {
+        // Check if any filters are active
+        const isAnyFilterActive = Object.values($activeFilters).some(value => value);
+
         return $productsStore.filter(product => {
-            if ($activeFilters.isMissingImages && product.isMissingImages) return false;
-            if ($activeFilters.isMissingDeliveryDates && product.isMissingDeliveryDates) return false;
-            if ($activeFilters.isMissingPrices && product.isMissingPrices) return false;
-            if ($activeFilters.isSoldOut && product.isSoldOut) return false;
-            if ($activeFilters.isCancelled && product.isCancelled) return false;
-            if ($activeFilters.isMissingSizes && product.isMissingSizes) return false;
-            if ($activeFilters.isMissingImStyles && product.isMissingImStyles) return false;
-            return true;
+            // If no filters are active, include all products
+            if (!isAnyFilterActive) {
+                return true;
+            }
+
+            // Check each filter; if it's active and the product attribute is true, include the product
+            return ($activeFilters.isMissingImages && product.isMissingImages) ||
+                   ($activeFilters.isMissingDeliveryDates && product.isMissingDeliveryDates) ||
+                   ($activeFilters.isMissingPrices && product.isMissingPrices) ||
+                   ($activeFilters.isSoldOut && product.isSoldOut) ||
+                   ($activeFilters.isCancelled && product.isCancelled) ||
+                   ($activeFilters.isMissingSizes && product.isMissingSizes) ||
+                   ($activeFilters.isMissingImStyles && product.isMissingImStyles);
         });
     }
 );
+
+
+
 
 // Derived store to handle searched products
 export const searchedProducts = derived(
     [filteredProducts, searchInput],
     ([$filteredProducts, $searchInput]) => {
+        console.log('searchedProducts: Search input:', $searchInput);
         const searchLower = $searchInput.trim().toLowerCase();
         if (!searchLower) return $filteredProducts; // if search input is empty, return all filtered products
         return $filteredProducts.filter(product =>

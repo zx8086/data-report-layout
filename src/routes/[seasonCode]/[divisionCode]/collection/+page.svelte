@@ -150,13 +150,16 @@ function handleFilterButtonClick() {
                 </div>
                 <!-- Products Grid -->
                 <div class="grid grid-cols-6 gap-x-1 gap-y-6 justify-items-center">
-                    {#each $searchedProducts as product}
-                        <div class="flex flex-col items-center">
-                            <!-- Replace the div with the Product component -->
-                            <Product product={product} activeFilters={$activeFilters} on:select={() => handleSelectProduct(product)} />
-
-                        </div>
-                    {/each}
+                    {#if $searchedProducts.length === 0}
+                        <p>No products found.</p>
+                    {:else}
+                        {#each $searchedProducts as product}
+                            <div class="flex flex-col items-center">
+                                <!-- Product component -->
+                                <Product {product} on:select={() => handleSelectProduct(product)} />
+                            </div>
+                        {/each}
+                    {/if}
                 </div>
             </div>
         </div>
