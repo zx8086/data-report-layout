@@ -1,22 +1,15 @@
 <script lang="ts">
     import type { PageData } from './$types';
     import { selectedProduct } from '../../../../stores/productStore';
-    import { searchInput, productsStore, filteredProducts, searchedProducts } from '../../../../stores/productsStore';
+    import { productsStore, filteredProducts } from '../../../../stores/productsStore';
+
+    import { activeFilters } from '../../../../stores/filtersStore'; // Import your filters store
+    import { searchInput, searchedProducts } from '../../../../stores/productsStore'; // Import searchInput from the productsStore
+    
     import { writable, derived } from 'svelte/store';
     import Product from '../../../../components/Product.svelte';
 
     export let data: PageData;
-
-    // Assuming you have an activeFilters store like this:
-    export const activeFilters = writable({
-        missingImages: false,
-        missingPrices: false,
-        missingDeliveryDates: false,
-        missingSizes: false,
-        cancelledOptions: false,
-        soldOutOptions: false,
-        missingImStyles: false,
-    });
 
     let showFilters = false; // State to show/hide the filter box
 
@@ -28,13 +21,13 @@
     // Function to clear all filters
     function clearFilters() {
         activeFilters.set({
-            missingImages: false,
-            missingPrices: false,
-            missingDeliveryDates: false,
-            missingSizes: false,
-            cancelledOptions: false,
-            soldOutOptions: false,
-            missingImStyles: false,
+            isImageAvailable: false,
+            isDeliveryDatesAvailable: false,
+            isPricesAvailable: false,
+            isSoldOut: false,
+            isCancelled: false,
+            isMissingSizes: false,
+            isMissingImStyles: false,
         });
     }
 
@@ -109,35 +102,35 @@ function handleFilterButtonClick() {
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
                                     </svg>
                                 </button>
-                                                        <!-- Filter box -->
+                        <!-- Filter box -->
                         <div class={`relative bg-white p-4 rounded-lg shadow-md z-10 ${showFilters ? 'block' : 'hidden'}`} style="top: 0%; right: 0%;">
                             <form>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.missingImages}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isImageAvailable}>
                                     <span>Missing Images</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.missingPrices}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isPricesAvailable}>
                                     <span>Missing Prices</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.missingDeliveryDates}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isDeliveryDatesAvailable}>
                                     <span>Missing Delivery Dates</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.missingSizes}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isMissingSizes}>
                                     <span>Missing Sizes</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.cancelledOptions}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isCancelled}>
                                     <span>Cancelled Options</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.soldOutOptions}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isSoldOut}>
                                     <span>Sold Out Options</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.missingImStyles}>
+                                    <input type="checkbox" class="form-checkbox" bind:checked={$activeFilters.isMissingImStyles}>
                                     <span>Missing IM Styles</span>
                                 </label>
                                 <button type="button" class="mt-4 text-blue-500 hover:text-blue-700" on:click={clearFilters}>
@@ -145,7 +138,7 @@ function handleFilterButtonClick() {
                                 </button>
                             </form>
                         </div>
-                            </div>
+                    </div>
 
                     </div>
                     <div>
@@ -164,10 +157,8 @@ function handleFilterButtonClick() {
                     {#each $searchedProducts as product}
                         <div class="flex flex-col items-center">
                             <!-- Replace the div with the Product component -->
-                            <Product
-                                product={product}
-                                on:select={() => handleSelectProduct(product)}
-                            />
+                            <Product product={product} activeFilters={$activeFilters} on:select={() => handleSelectProduct(product)} />
+
                         </div>
                     {/each}
                 </div>
@@ -183,8 +174,8 @@ function handleFilterButtonClick() {
             </svg></button>
         </div>
         {#if $selectedProduct}
-        <div class="mx-6 mb-5 bg-blue-500 rounded-md shadow-lg h-80">Price: {$selectedProduct.price}</div>
-        <div class="mx-6 mb-5 rounded-md shadow-lg h-80 bg-rose-500">Delivery Date: {$selectedProduct.deliveryDate}</div>
+        <div class="mx-6 mb-5 bg-blue-500 rounded-md shadow-lg h-80">Price: {$selectedProduct.prices}</div>
+        <div class="mx-6 mb-5 rounded-md shadow-lg h-80 bg-rose-500">Delivery Date: {$selectedProduct.deliveryDates}</div>
         <div class="mx-6 mb-5 bg-yellow-600 rounded-md shadow-lg h-80">Misc..</div>
         {/if}
     </div>

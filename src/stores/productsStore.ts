@@ -5,16 +5,15 @@ import { writable, derived } from 'svelte/store';
 export let searchInput = writable('');
 
 export const activeFilters = writable({
-    missingImages: false,
-    missingDeliveryDates: false,
-    missingPrices: false,
-    soldOutOptions: false,
-    cancelledOptions: false,
-    missingSizes: false,
-    missingImStyles: false,
+    isImageAvailable: false,
+    isDeliveryDatesAvailable: false,
+    isPricesAvailable: false,
+    isSoldOut: false,
+    isCancelled: false,
+    isMissingSizes: false,
+    isMissingImStyles: false,
 });
 
-// Mock product data with all necessary attributes, logic on Couchbase Side.
 const mockProducts = [
     {
         productId: "MW0MW13720DW5",
@@ -22,12 +21,12 @@ const mockProducts = [
         prices: 139.9,
         deliveryDates: "2021-02-01",
         isImageAvailable: true,
-        isDeliveryDatesAvailable: true,
+        isDeliveryDatesAvailable: false,
         isPricesAvailable: true,
         isSoldOut: false,
         isCancelled: false,
-        isMissingSizes: true,
-        isMissingImStyles: true,
+        isMissingSizes: false,
+        isMissingImStyles: false,
         imageUrl: 'http://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW13720DW5_F_C4201?wid=150&hei=250',
         imageFrontUrl: 'http://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW13720DW5_F_C4201',
         imageBackUrl: 'http://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW13720DW5_B_C4201',
@@ -42,12 +41,12 @@ const mockProducts = [
         prices: 119.9,
         deliveryDates: "2021-01-01",
         isImageAvailable: true,
-        isDeliveryDatesAvailable: true,
-        isPricesAvailable: true,
+        isDeliveryDatesAvailable: false,
+        isPricesAvailable: false,
         isSoldOut: false,
         isCancelled: false,
-        isMissingSizes: true,
-        isMissingImStyles: true,
+        isMissingSizes: false,
+        isMissingImStyles: false,
         imageUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW11596YBR_F_C4201?wid=150&hei=250',
         imageFrontUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW11596YBR_F_C4201',
         imageBackUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW11596YBR_B_C4201',
@@ -62,11 +61,11 @@ const mockProducts = [
         prices: 59.9,
         deliveryDates: "2021-04-01",
         isImageAvailable: true,
-        isDeliveryDatesAvailable: true,
-        isPricesAvailable: true,
+        isDeliveryDatesAvailable: false,
+        isPricesAvailable: false,
         isSoldOut: false,
         isCancelled: false,
-        isMissingSizes: true,
+        isMissingSizes: false,
         isMissingImStyles: true,
         imageUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW177700A4_F_C4201?wid=150&hei=250',
         imageFrontUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW177700A4_F_C4201',
@@ -82,10 +81,10 @@ const mockProducts = [
         prices: 79.9,
         deliveryDates: "2021-04-01",
         isImageAvailable: true,
-        isDeliveryDatesAvailable: true,
+        isDeliveryDatesAvailable: false,
         isPricesAvailable: true,
-        isSoldOut: false,
-        isCancelled: false,
+        isSoldOut: true,
+        isCancelled: true,
         isMissingSizes: true,
         isMissingImStyles: true,
         imageUrl: 'https://s7g10.scene7.com/is/image/TommyHilfigerEU/MW0MW358040KP_F_C4201?wid=150&hei=250',
@@ -109,14 +108,15 @@ export const filteredProducts = derived(
             if ($activeFilters.isImageAvailable && product.isImageAvailable) return false;
             if ($activeFilters.isDeliveryDatesAvailable && product.isDeliveryDatesAvailable) return false;
             if ($activeFilters.isPricesAvailable && product.isPricesAvailable) return false;
-            if ($activeFilters.soldOut && product.isSoldOut) return false;
-            if ($activeFilters.cancelled && product.isCancelled) return false;
-            if ($activeFilters.missingSizes && product.isMissingSizes) return false;
+            if ($activeFilters.isSoldOut && product.isSoldOut) return false;
+            if ($activeFilters.isCancelled && product.isCancelled) return false;
+            if ($activeFilters.isMissingSizes && product.isMissingSizes) return false;
             if ($activeFilters.isMissingImStyles && product.isMissingImStyles) return false;
             return true;
         });
     }
 );
+
 
 export const searchedProducts = derived(
     [filteredProducts, searchInput],
