@@ -60,6 +60,7 @@ function handleFilterButtonClick() {
 </script>
 
 <div class="flex h-full">
+
     <!-- Left Sidebar -->
     <div class="w-1/5 mx-4 transition-opacity bg-gray-100 sidebar-left" class:hidden={$selectedProduct === null}>
         <div class="flex flex-col rounded-md">
