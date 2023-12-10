@@ -8,4 +8,5 @@ heartbeat.monitors:
   timeout: 16s
   alert.status.enabled: true
 
+
 # Path: synthetic-monitoring/lightweight/heartbeat.yml SYNTHETICS_API_KEY=UUFMRFVJd0JJOHZpYnhqdlUzMFI6bXliMXd3RVFTZzYyQlZQZXJDYlhfdw== npm run push
