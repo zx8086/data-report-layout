@@ -17,7 +17,12 @@
     }
 </script>
 
-<div class="product" tabindex="0" on:click={selectProduct} role="button">
+<div 
+    class="product" 
+    tabindex="0" 
+    role="button" 
+    on:click={selectProduct}
+    on:keydown={(event) => (event.key === 'Enter' || event.key === 'Space') && selectProduct()}>
     <img src={product.imageUrl} alt={product.productDescription} on:error={handleImageError}>
     <div class="justify-center text-sm">{product.productId}</div>
     <div class="text-xs">{product.productDescription}</div>

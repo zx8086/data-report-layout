@@ -3,7 +3,7 @@
   import { onMount } from 'svelte';
   import { themeStore } from '../stores/themeStore'; // Make sure the import path is correct
   import { menuListStore, setMenuList } from '../stores/menuListStore';
-
+  
   let themeData: {
     theme: string;
     brands: { label: string; value: string; imageUrl: string; }[];

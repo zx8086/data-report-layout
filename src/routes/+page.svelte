@@ -1,4 +1,3 @@
-<div class="flex-none bg-black w-screen h-screen">
-    <!-- Ensure the class name matches what's being selected in updateVideoAndLogo -->
-    <video class="carousel-video w-full h-full object-cover" autoplay loop muted></video>
+<div class="flex-none w-screen h-screen bg-black">
+    <video class="object-cover w-full h-full carousel-video" autoplay loop muted></video>
 </div>
