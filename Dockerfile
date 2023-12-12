@@ -23,7 +23,7 @@ COPY . .
 
 # [optional] tests & build
 ENV NODE_ENV=production
-RUN bun test
+# RUN bun test
 RUN bun run build
 
 # copy production dependencies and source code into final image
@@ -38,9 +38,12 @@ USER bun
 ENV HOST=0.0.0.0 PORT=3000
 ENV PROTOCOL_HEADER=x-forwarded-proto
 ENV HOST_HEADER=host
+# ENV ORIGIN=http://localhost:3000 bun build
+# ENV PROTOCOL_HEADER=x-forwarded-proto HOST_HEADER=x-forwarded-host bun build
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Define the command to run your app using Bun
-CMD ["bun", "run", "build/index.js"]
+# CMD ["bun", "./build/index.js"]
+ENTRYPOINT [ "bun", "run", "./build/index.js"]

@@ -154,19 +154,15 @@ export const filteredProducts = derived(
             }
 
             // Check each filter; if it's active and the product attribute is true, include the product
-            return ($activeFilters.isMissingImages && product.isMissingImages) ||
-                   ($activeFilters.isMissingDeliveryDates && product.isMissingDeliveryDates) ||
-                   ($activeFilters.isMissingPrices && product.isMissingPrices) ||
-                   ($activeFilters.isSoldOut && product.isSoldOut) ||
-                   ($activeFilters.isCancelled && product.isCancelled) ||
-                   ($activeFilters.isMissingSizes && product.isMissingSizes) ||
-                   ($activeFilters.isMissingImStyles && product.isMissingImStyles);
+            return ($activeFilters.isMissingImages && product.isMissingImages) || ($activeFilters.isMissingDeliveryDates && product.isMissingDeliveryDates) ||
+            ($activeFilters.isMissingPrices && product.isMissingPrices) ||
+            ($activeFilters.isSoldOut && product.isSoldOut) ||
+            ($activeFilters.isCancelled && product.isCancelled) ||
+            ($activeFilters.isMissingSizes && product.isMissingSizes) ||
+            ($activeFilters.isMissingImStyles && product.isMissingImStyles);
         });
     }
 );
-
-
-
 
 // Derived store to handle searched products
 export const searchedProducts = derived(
