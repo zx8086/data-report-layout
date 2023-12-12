@@ -65,7 +65,7 @@ function handleFilterButtonClick() {
 <!-- Left Sidebar -->
 <div class="flex flex-col w-1/5 h-full overflow-y-auto transition-opacity bg-gray-100 sidebar-left" class:hidden={$selectedProduct === null}>
     <!-- Close Button at the top-right corner of the sidebar -->
-    <button class="self-end p-2" on:click={() => selectedProduct.set(null)}>
+    <button class="self-end" on:click={() => selectedProduct.set(null)}>
         <!-- SVG Close Icon -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
@@ -82,7 +82,6 @@ function handleFilterButtonClick() {
         </div>
     {/if}
 </div>
-
 
 <!-- Center Content -->
 <div class="flex-auto bg-gray-600">
@@ -177,6 +176,5 @@ function handleFilterButtonClick() {
     {/if}
 </div>
 </div>
-
 
 </div>

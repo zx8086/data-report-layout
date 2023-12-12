@@ -7,7 +7,7 @@
     const dispatch = createEventDispatcher();
 
     // Define the handleImageError function here
-    function handleImageError(event) {
+    function handleImageError(event: any) {
         event.target.src = '/img/not-found.png';
         event.target.onerror = null; // Remove the event handler after it's handled once
     }
