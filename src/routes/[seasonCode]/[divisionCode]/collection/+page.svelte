@@ -83,10 +83,8 @@ function handleFilterButtonClick() {
     </div>
 
     <!-- Center Content -->
-    <div class="flex-auto">
-        <div class="flex justify-center bg-white">
-            <div class="flex flex-col">
-                <div class="flex justify-between px-4 py-2">
+    <div class="flex flex-col flex-grow"> 
+                <div class="flex justify-between px-4 py-2 fixed-header">
                     <!-- Filter button and search input wrapper with flex and space-x classes -->
                     <div class="flex items-center space-x-4">
                         <!-- Filter button -->
@@ -147,20 +145,22 @@ function handleFilterButtonClick() {
                 </div>
 
                 <!-- Products Grid -->
-                <div class="grid grid-cols-6 gap-x-1 gap-y-6 justify-items-center">
-                    {#if $searchedProducts.length === 0}
-                        <p>No products found.</p>
-                    {:else}
-                        {#each $searchedProducts as product}
-                            <div class="flex flex-col items-center">
-                                <!-- Product component -->
-                                <Product {product} on:select={() => handleSelectProduct(product)} />
-                            </div>
-                        {/each}
-                    {/if}
+                <div class="flex-grow"> <!-- This takes up the remaining space -->
+                    <div class="grid grid-cols-6 gap-x-1 gap-y-6 justify-items-center">
+                        {#if $searchedProducts.length === 0}
+                            <p>No products found.</p>
+                        {:else}
+                            {#each $searchedProducts as product}
+                                <div class="flex flex-col items-center">
+                                    <!-- Product component -->
+                                    <Product {product} on:select={() => handleSelectProduct(product)} />
+                                </div>
+                            {/each}
+                        {/if}
+                    </div>  
                 </div>
-            </div>
-        </div>
+            
+
     </div>
 
     <!-- Right Sidebar -->
