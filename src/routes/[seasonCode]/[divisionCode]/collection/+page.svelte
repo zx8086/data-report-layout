@@ -153,7 +153,7 @@ function handleFilterButtonClick() {
                             {#each $searchedProducts as product}
                                 <div class="flex flex-col items-center">
                                     <!-- Product component -->
-                                    <Product {product} on:select={() => handleSelectProduct(product)} />
+                                    <Product {product} on:select={() => handleSelectProduct(product)}/>
                                 </div>
                             {/each}
                         {/if}

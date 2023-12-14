@@ -18,12 +18,12 @@
 </script>
 
 <div 
-    class="product" 
+    class="flex flex-col items-center justify-center p-2 border shadow-lg rounded-xl product" 
     tabindex="0" 
     role="button" 
     on:click={selectProduct}
     on:keydown={(event) => (event.key === 'Enter' || event.key === 'Space') && selectProduct()}>
-    <img src={product.imageUrl} alt={product.productDescription} on:error={handleImageError}>
+    <img src={product.imageUrl} alt={product.productDescription} on:error={handleImageError}> 
     <div class="justify-center text-sm">{product.productId}</div>
     <div class="text-xs">{product.productDescription}</div>
 </div>
