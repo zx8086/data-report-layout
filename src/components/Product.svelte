@@ -18,7 +18,7 @@
 </script>
 
 <div 
-    class="flex flex-col items-center justify-center p-2 border shadow-lg rounded-xl product" 
+    class="flex flex-col items-center justify-center p-2 border shadow-lg rounded-xl hover:opacity-75 product"
     tabindex="0" 
     role="button" 
     on:click={selectProduct}

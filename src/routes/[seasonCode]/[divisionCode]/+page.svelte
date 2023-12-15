@@ -1,12 +1,12 @@
-<script>
+<script lang="ts" >
 /** @type {import('./$types').PageLoad} */
 
-export let data;
+export let data: any;
 
 console.log("Data -", data);
 
-let seasonCode;
-let divisionCode;
+let seasonCode: any;
+let divisionCode: any;
 
 // Create reactive declarations for seasonCode and divisionCode
 $: {
@@ -15,4 +15,4 @@ $: {
 }
 
 </script>
-<div class="header">This is the Divisional Page for {seasonCode} {divisionCode}</div>
+<div>This is the Divisional Page for {seasonCode} {divisionCode}</div>
